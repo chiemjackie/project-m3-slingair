@@ -5,6 +5,18 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const { flights } = require('./test-data/flightSeating');
 
+const renderSeatSelect = (req, res) => {
+    res.status(200).render('./public/seat-select/index.html')
+}
+
+const renderConfirmedPage = (req, res) => {
+    res.status(200).render('./public/confirmed/index.html')
+}
+
+const renderReservation = (req, res) => {
+    res.status(200).render('./public/view-reservation/index.html')
+}
+
 express()
     .use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
@@ -17,5 +29,10 @@ express()
     .use(express.urlencoded({extended: false}))
     
     // endpoints
+
+    .get('/seat-select', renderSeatSelect)
+    .get('/confirmed', renderConfirmedPage)
+    .get('/view-reservation', renderReservation)
+
     .use((req, res) => res.send('Not Found'))
-    .listen(PORT, () => console.log(`Listening on port 8000`));
+    .listen(8000, () => console.log(`Listening on port 8000`));
