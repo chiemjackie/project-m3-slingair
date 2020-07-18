@@ -1,6 +1,7 @@
 const flightInput = document.getElementById('flight');
 const seatsDiv = document.getElementById('seats-section');
 const confirmButton = document.getElementById('confirm-button');
+const formFlightNumber = document.getElementById('form-flight-number')
 
 let selection = '';
 
@@ -14,17 +15,13 @@ const renderSeats = (flight) => {
         row.classList.add('fuselage');
         seatsDiv.appendChild(row);
         for (let s = 0; s < 6; s++) {
-            const seatNumber = `${r}${alpha[s-1]}`;
+            const seatNumber = `${r}${alpha[s]}`;
             const seat = document.createElement('li');
 
             const seatOccupied = `<li><label class="seat"><span id="${seatNumber}" class="occupied">${seatNumber}</span></label></li>`
             const seatAvailable = `<li><label class="seat"><input type="radio" name="seat" value="${seatNumber}" /><span id="${seatNumber}" class="avail">${seatNumber}</span></label></li>`        
         
             seat.innerHTML = seatAvailable;
-
-            // if (!flight.find((seat) => seat.id === `${r}${alpha[s-1]}` ).isAvailable) {
-            //     seat.innerHTML = seatOccupied;
-            // }
 
             if (!flight[((r-1)*6)+s].isAvailable){
                 seat.innerHTML = seatOccupied;
@@ -50,31 +47,45 @@ const renderSeats = (flight) => {
     });
 }
 
-
-const toggleFormContent = (event) => {
+const toggleFormContent = () => {
+    event.preventDefault();
     const flightNumber = flightInput.value;
     fetch(`/flights/${flightNumber}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data.flight);
             renderSeats(data.flight);
         })
 }
 
+function getRandomId() {
+    let dt = new Date().getTime();
+    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        let r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid
+}
+
 const handleConfirmSeat = (event) => {
     event.preventDefault();
-    // TODO: everything in here!
-    fetch('/users', {
+    fetch('/new-reservation/:id', {
         method: 'POST',
         body: JSON.stringify({
-            'givenName': document.getElementById('givenName').value
+            'id': getRandomId(),
+            'flight': flightInput.value,
+            'seat': selection,
+            'givenName': document.getElementById('givenName').value,
+            'surname': document.getElementById('surname').value,
+            'email': document.getElementById('email').value
         }),
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json"
         }
     })
-
+    document.location.replace('/confirmed')
 }
+
 
 flightInput.addEventListener('blur', toggleFormContent);

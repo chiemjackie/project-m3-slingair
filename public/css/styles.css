@@ -14,7 +14,6 @@ html {
     background: var(--orange);
 }
 
-
 main { 
     display: flex;
     flex-direction: column;
@@ -257,13 +256,6 @@ input {
 .lds-dual-ring {
     top: 8px;
     left: calc(52% - 15px);
-}
-
-.invalid-flight {
-    color: #fff;
-    font-size: 18px;
-    text-align: center;
-    margin-left: 10px;
 }
 
 .form-container { display: none; }

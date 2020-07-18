@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0, minimal-ui" />
         <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-        <title>Confirmed!</title>
+        <title>View Your Reservation</title>
     </head>
     <body>
         <div class='main'>
@@ -12,7 +12,12 @@
                 <h1 class='header-logo'>Air Slingshot</h1>
             </div>
             <div class="content">
-
+                <form id="view" class="content" name="viewForm" onsubmit="getReservation(event)">
+                    <div class="form-item">
+                        <label for="view-input">Please provide your email address.</label>
+                        <input id ="view-input" type="text" name="view-input" placeholder="Email ">
+                    </div>
+                </form>
             </div>
         </div>
         <p class='footer-logo'>The only way to fly!</p>
