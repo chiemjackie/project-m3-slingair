@@ -45,10 +45,24 @@ const renderSeats = (flight) => {
             confirmButton.disabled = false;
         }
     });
+    flightInput.removeEventListener('change', toggleFormContent);
 }
 
-const toggleFormContent = () => {
-    event.preventDefault();
+const getDropdown = () => {
+    fetch(`/flightnumber`)
+        .then(res => res.json())
+        .then(data => {
+            toggleFormContent(data)
+        })
+}
+
+const toggleFormContent = (data) => {
+    for (i = 0; i < data.length; i++) {
+        let flightId = document.createElement('option');
+        flightId.innerText = data[i];
+        flightInput.appendChild(flightId);
+    }
+
     const flightNumber = flightInput.value;
     fetch(`/flights/${flightNumber}`)
         .then(res => res.json())
@@ -64,7 +78,7 @@ function getRandomId() {
         dt = Math.floor(dt/16);
         return (c=='x' ? r :(r&0x3|0x8)).toString(16);
     });
-    return uuid
+    return uuid;
 }
 
 const handleConfirmSeat = (event) => {
@@ -87,5 +101,5 @@ const handleConfirmSeat = (event) => {
     document.location.replace('/confirmed')
 }
 
-
-flightInput.addEventListener('blur', toggleFormContent);
+getDropdown();
+flightInput.addEventListener('change', toggleFormContent);

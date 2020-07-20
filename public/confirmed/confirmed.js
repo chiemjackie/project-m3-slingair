@@ -12,7 +12,6 @@ const flightDetails = () => {
 }
 
 const displayInfo = (ticket) => {
-  console.log(ticket);
   flightNumber.innerHTML = ` ${ticket.flight}`;
   seatNumber.innerHTML = ` ${ticket.seat}`;
   fullName.innerHTML = ` ${ticket.givenName} ${ticket.surname}`;

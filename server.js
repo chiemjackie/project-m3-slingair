@@ -7,8 +7,16 @@ const { flights } = require('./test-data/flightSeating');
 const { reservations } = require('./test-data/reservations');
 let currentReservation = 0;
 
-const handleSeatSelect = (req, res) => {
-    res.status(200).render('./public/seat-select/index.html');
+const handleGetSeats = (req, res) => {
+    const flight = flights[req.params.flightNumber];
+    res.status(200).json({flight, status: 200});
+}
+
+const handleOptions = (req, res) => {
+    console.log("test")
+    let flightList = Object.keys(flights);
+    console.log(flightList);
+    res.json(flightList);
 }
 
 const handleConfirmedPage = (req, res) => {
@@ -26,16 +34,18 @@ const handleConfirmInfo = (req, res) => {
 }
 
 const handleViewReservation = (req, res) => {
-    res.status(200).render('./public/view-reservation/index.html');
+    console.log("test BE 1");
 }
 
-const handleFourOhFour = (req, res) => {
-    res.render("Look, I don't know where you're trying to go, but you're in the wrong place.");
-}
-
-const handleGetSeats = (req, res) => {
-    const flight = flights[req.params.flightNumber];
-    res.status(200).json({flight, status: 200});
+const retrieveFlightInfo = (req, res) => {
+    let input = req.params.input;
+    let reservationInfo = {};
+    for (let i = 0; i < reservations.length; i++) {
+        if (reservations[i].email === input) {
+            reservationInfo = reservations[i];
+        }
+    }
+    res.json({reservationInfo});
 }
 
 const postNewReservation = (req, res) => {
@@ -56,11 +66,11 @@ express()
     
     // endpoints
     .get('/flights/:flightNumber', handleGetSeats)
-    .get('/seat-select', handleSeatSelect)
+    .get('/flightnumber', handleOptions)
     .get('/confirmed', handleConfirmedPage)
     .get('/confirmed/current', handleConfirmInfo)
     .get('/view-reservation', handleViewReservation)
-    .get('*', handleFourOhFour)
+    .get('/view-reservation/:input', retrieveFlightInfo)
 
     .post('/new-reservation/:id', postNewReservation)
 

@@ -11,13 +11,26 @@
             <header class='header'>
                 <h1 class='header-logo'>Air Slingshot</h1>
             </div>
-            <div class="content">
-                <form id="view" class="content" name="viewForm" onsubmit="getReservation(event)">
+            <div class="content confirmation">
+                <form id="view" class="content" name="viewForm">
                     <div class="form-item">
-                        <label for="view-input">Please provide your email address.</label>
-                        <input id ="view-input" type="text" name="view-input" placeholder="Email ">
+                        <label for="input">Please provide your email address.</label>
+                        <input id="input" type="text" name="input" placeholder="Email ">
+                        <input id="submit" type="submit">
                     </div>
                 </form>
+            </div>
+            <div class="content confirmation">
+                <div class="user">
+                    <p class="message">Your flight reservation:</p>
+                    <ul class="user-info">
+                        <li>Flight #:<span id="flight"></span></li>
+                        <li>Seat #: <span id="seat"></span></li>
+                        <li>Name:<span id="name"></span></li>
+                        <li>Email:<span id="email"></span></li>
+                    </ul>
+                </div>
+                <div class="tombstone"></div>
             </div>
         </div>
         <p class='footer-logo'>The only way to fly!</p>
